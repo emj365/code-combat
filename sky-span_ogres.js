@@ -1,3 +1,17 @@
+///////////////////////////////
+// adjust
+///////////////////////////////
+
+var options = {
+    munchkinsNeed: 4,
+    keepDistance: 6,
+    pushSpeed: 1
+};
+
+///////////////////////////////
+// run
+///////////////////////////////
+
 var throwers  = [],
     munchkins = [],
     hero;
@@ -28,7 +42,7 @@ hero      = this.getFriendsByType('shaman')[0];
 // Units you build will go into the this.built array.
 
 this.getBuildType = function () {
-    if (munchkins.length < 4)
+    if (munchkins.length < options.munchkinsNeed)
         return 'munchkin';
     if (!hero)
         return 'yugargen';
@@ -69,9 +83,9 @@ this.munchkinPush = function (munchkin) {
     var nearestThrower;
 
     nearestThrower = munchkin.getNearest(throwers);
-    if (nearestThrower && munchkin.pos.x >= nearestThrower.pos.x - distance) {
+    if (nearestThrower && munchkin.pos.x + options.keepDistance >= nearestThrower.pos.x) {
         this.command(munchkin, 'move', {
-            x: munchkin.pos.x - distance,
+            x: munchkin.pos.x - options.keepDistance,
             y: munchkin.pos.y
         });
         return true;
@@ -98,7 +112,7 @@ this.commandThrower = function (thrower) {
         return;
     }
     this.command(thrower, 'move', {
-        x: thrower.pos.x - 1,
+        x: thrower.pos.x - options.pushSpeed,
         y: thrower.pos.y
     });
 };
