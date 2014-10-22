@@ -1,13 +1,16 @@
-var throwers = [];
-var munchkins = [];
-var hero, heroName = 'yugargen';
+var throwers  = [],
+    munchkins = [],
+    hero;
 
-throwers = this.getFriends().filter(function (friend) {
-    return friend.type == 'thrower';
-});
-munchkins = this.getFriends().filter(function (friend) {
-    return friend.type == 'munchkin';
-});
+this.getFriendsByType = function (type) {
+    return this.getFriends().filter(function (friend) {
+        return friend.type === type;
+    });
+};
+
+throwers  = this.getFriendsByType('thrower');
+munchkins = this.getFriendsByType('munchkin');
+hero      = this.getFriendsByType('shaman')[0];
 
 // This is your commander's code. Decide which unit to build each frame.
 // Destroy the enemy base within 90 seconds!
@@ -15,34 +18,31 @@ munchkins = this.getFriends().filter(function (friend) {
 /////// 1. Choose your hero. /////////////////////////////////////////
 // Heroes cost 100 gold. You start with 100 and earn 10 per second.
 
-//hero = 'ironjaw';  // A leaping juggernaut hero, type 'brawler'.
+//hero = 'ironjaw';   // A leaping juggernaut hero, type 'brawler'.
 //hero = 'yugargen';  // A devious spellcaster hero, type 'shaman'.
-//hero = 'dreek'; // A deadly spear hero, type 'fangrider'.
-// if (hero && !this.builtHero) {
-//     this.builtHero = this.build(hero);
-//     return;
-// }
+//hero = 'dreek';     // A deadly spear hero, type 'fangrider'.
 
 /////// 2. Choose which unit to build each turn. /////////////////////
 // Munchkins are weak melee units who cost 11 gold.
 // Throwers are fragile, deadly ranged units who cost 25 gold.
 // Units you build will go into the this.built array.
-var type;
-if (munchkins.length < 4) {
-    type = 'munchkin';
-} else {
-    hero = this.getFriends().filter(function (friend) {
-        return friend.type === 'shaman';
-    })[0];
-    if (!hero) {
-        type = 'yugargen';
-    } else
-        type = 'thrower';
-}
-if (this.buildables[type].goldCost <= this.gold) {
-    this.build(type);
-    return true;
-}
+
+this.getBuildType = function () {
+    if (munchkins.length < 4)
+        return 'munchkin';
+    if (!hero)
+        return 'yugargen';
+    return 'thrower';
+};
+
+this.buildByType = function (type) {
+    if (this.buildables[type].goldCost <= this.gold) {
+        this.build(type);
+        return true;
+    }
+};
+
+this.buildByType(this.getBuildType());
 
 /////// 3. Command minions to implement your tactics. ////////////////
 // Minions obey 'move' and 'attack' commands.
@@ -65,8 +65,9 @@ this.munchkinStandby = function (munchkin) {
 };
 
 this.munchkinPush = function (munchkin) {
-    var distance = 5;
+    var distance = 6;
     var nearestThrower;
+
     nearestThrower = munchkin.getNearest(throwers);
     if (nearestThrower && munchkin.pos.x >= nearestThrower.pos.x - distance) {
         this.command(munchkin, 'move', {
@@ -79,7 +80,6 @@ this.munchkinPush = function (munchkin) {
 };
 
 this.commandMunchkin = function (munchkin) {
-
     if (this.munchkinAttack(munchkin))
         return;
     if (this.munchkinStandby(munchkin))
@@ -88,10 +88,6 @@ this.commandMunchkin = function (munchkin) {
         return;
     return false;
 };
-
-for (var i = 0; i < munchkins.length; i++) {
-    this.commandMunchkin(munchkins[i]);
-}
 
 this.commandThrower = function (thrower) {
     var nearestThrower, nearestEnemy, inRange;
@@ -107,7 +103,10 @@ this.commandThrower = function (thrower) {
     });
 };
 
+for (var i = 0; i < munchkins.length; i++) {
+    this.commandMunchkin(munchkins[i]);
+}
+
 for (i = 0; i < throwers.length; i++) {
     this.commandThrower(throwers[i]);
 }
-
