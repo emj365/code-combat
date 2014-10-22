@@ -47,16 +47,16 @@ if (this.buildables[type].goldCost <= this.gold) {
 /////// 3. Command minions to implement your tactics. ////////////////
 // Minions obey 'move' and 'attack' commands.
 // Click on a minion to see its API.
+
 this.munchkinAttack = function (munchkin) {
     var nearestEnemy;
     nearestEnemy = munchkin.getNearestEnemy();
-    if (munchkin.distance(nearestEnemy) <= munchkin.attackrange) {
+    if (munchkin.distance(nearestEnemy) <= munchkin.attackRange) {
         this.command( munchkin, 'attack', nearestEnemy );
         return true;
     }
     return false;
 };
-
 
 this.munchkinStandby = function (munchkin) {
     if (throwers.length === 0)
@@ -79,14 +79,14 @@ this.munchkinPush = function (munchkin) {
 };
 
 this.commandMunchkin = function (munchkin) {
-    
+
     if (this.munchkinAttack(munchkin))
         return;
     if (this.munchkinStandby(munchkin))
         return;
     if (this.munchkinPush(munchkin))
         return;
-    return false; 
+    return false;
 };
 
 for (var i = 0; i < munchkins.length; i++) {
