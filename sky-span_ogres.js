@@ -12,9 +12,9 @@ var options = {
 // run
 ///////////////////////////////
 
-var throwers  = [],
-    munchkins = [],
-    hero;
+var myThrowers  = [],
+    myMunchkins = [],
+    myShaman;
 
 this.getFriendsByType = function (type) {
     return this.getFriends().filter(function (friend) {
@@ -22,9 +22,9 @@ this.getFriendsByType = function (type) {
     });
 };
 
-throwers  = this.getFriendsByType('thrower');
-munchkins = this.getFriendsByType('munchkin');
-hero      = this.getFriendsByType('shaman')[0];
+myThrowers  = this.getFriendsByType('thrower');
+myMunchkins = this.getFriendsByType('munchkin');
+myShaman    = this.getFriendsByType('shaman')[0];
 
 // This is your commander's code. Decide which unit to build each frame.
 // Destroy the enemy base within 90 seconds!
@@ -42,9 +42,9 @@ hero      = this.getFriendsByType('shaman')[0];
 // Units you build will go into the this.built array.
 
 this.getBuildType = function () {
-    if (munchkins.length < options.munchkinsNeed)
+    if (myMunchkins.length < options.munchkinsNeed)
         return 'munchkin';
-    if (!hero)
+    if (!myShaman)
         return 'yugargen';
     return 'thrower';
 };
@@ -73,7 +73,7 @@ this.munchkinAttack = function (munchkin) {
 };
 
 this.munchkinStandby = function (munchkin) {
-    if (throwers.length === 0)
+    if (myThrowers.length === 0)
         return true;
     return false;
 };
@@ -82,7 +82,7 @@ this.munchkinPush = function (munchkin) {
     var distance = 6;
     var nearestThrower;
 
-    nearestThrower = munchkin.getNearest(throwers);
+    nearestThrower = munchkin.getNearest(myThrowers);
     if (nearestThrower && munchkin.pos.x + options.keepDistance >= nearestThrower.pos.x) {
         this.command(munchkin, 'move', {
             x: munchkin.pos.x - options.keepDistance,
@@ -117,10 +117,10 @@ this.commandThrower = function (thrower) {
     });
 };
 
-for (var i = 0; i < munchkins.length; i++) {
-    this.commandMunchkin(munchkins[i]);
+for (var i = 0; i < myMunchkins.length; i++) {
+    this.commandMunchkin(myMunchkins[i]);
 }
 
-for (i = 0; i < throwers.length; i++) {
-    this.commandThrower(throwers[i]);
+for (i = 0; i < myThrowers.length; i++) {
+    this.commandThrower(myThrowers[i]);
 }
