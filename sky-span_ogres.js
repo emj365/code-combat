@@ -16,15 +16,16 @@ var myThrowers  = [],
     myMunchkins = [],
     myShaman;
 
-this.getFriendsByType = function (type) {
-    return this.getFriends().filter(function (friend) {
+this.getUnits = function (type, isEnemy) {
+    var getFun = isEnemy ? this.getEnemies : this.getFriends;
+    return getFun().filter(function (friend) {
         return friend.type === type;
     });
 };
 
-myThrowers  = this.getFriendsByType('thrower');
-myMunchkins = this.getFriendsByType('munchkin');
-myShaman    = this.getFriendsByType('shaman')[0];
+myThrowers  = this.getUnits('thrower');
+myMunchkins = this.getUnits('munchkin');
+myShaman    = this.getUnits('shaman')[0];
 
 // This is your commander's code. Decide which unit to build each frame.
 // Destroy the enemy base within 90 seconds!
