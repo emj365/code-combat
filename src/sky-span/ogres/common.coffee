@@ -43,11 +43,12 @@ check battle field
 @friends = @getFriends()
 @enemies = @getEnemies()
 
-@myThrowers    = @getUnits('thrower')
-@myMunchkins   = @getUnits('munchkin')
-@myShaman      = @getUnits('shaman')[0]
-@myFangrider   = @getUnits('fangrider')[0]
-@enemyCaptains = @getUnits('captain', true);
+@myThrowers      = @getUnits('thrower')
+@myMunchkins     = @getUnits('munchkin')
+@myShaman        = @getUnits('shaman')[0]
+@myFangrider     = @getUnits('fangrider')[0]
+@enemyCaptains   = @getUnits('captain', true);
+@enemyCommander  = @getUnits('commander', true)[0];
 
 ###
 check plan
