@@ -6,3 +6,4 @@ options for commander
     munchkinsNeed: 3
     keepDistance: 6
     pushSpeed: 1
+    shamanDistance: 8

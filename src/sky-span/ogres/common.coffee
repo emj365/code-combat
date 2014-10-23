@@ -32,9 +32,16 @@ if not @getUnits
       units = @enemies
     else
       units = @friends
-    return units.filter( (unit) ->
-      return unit.type == type
+    units.filter( (unit) ->
+      unit.type == type
     )
+
+if not @inAttackRange
+  @inAttackRange = (unit, enemies) ->
+    enemies.filter( (enemy) ->
+      unit.distance(enemy) <= unit.attackRange
+    )
+
 
 ###
 check battle field
@@ -48,6 +55,8 @@ check battle field
 @myShaman        = @getUnits('shaman')[0]
 @myFangrider     = @getUnits('fangrider')[0]
 @enemyCaptains   = @getUnits('captain', true);
+@enemyArchers    = @getUnits('archer', true);
+@enemySoldiers   = @getUnits('soldier', true);
 @enemyCommander  = @getUnits('commander', true)[0];
 
 ###

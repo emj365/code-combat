@@ -18,7 +18,7 @@ if not @buildByType
 if not @munchkinAttack
   @munchkinAttack = (munchkin) ->
     nearestEnemy = munchkin.getNearestEnemy()
-    if munchkin.distance(nearestEnemy) <= munchkin.attackRange * 2
+    if munchkin.distance(nearestEnemy) <= munchkin.attackRange * 2.5
       @command munchkin, "attack", nearestEnemy
       return true
     false
