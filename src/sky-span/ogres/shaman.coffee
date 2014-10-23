@@ -6,15 +6,15 @@
 # 'poison-cloud': once per match, 5 poison DPS for 10s in a 15m radius.
 
 # Chill if all enemies are dead.
-@say '¯\_(ツ)_/¯ 哈哈哈' if not @enemyCommander
+@say '¯\\_(ツ)_/¯ 哈哈哈' if not @enemyCommander
 
 # Which one do you do at any given time? Only the last called action happens.
 enemy = @getNearest(@enemies)
 friend = @getNearest(@friends)
 enemyInMiddle = @enemies[Math.round( @enemies.length / 2 )]
 
-if @enemies.length > 5 and enemy.pos.x < 35 and @canCast("poison-cloud", enemyInMiddle - 1)
-  @castPoisonCloud enemyInMiddle - 1
+if @enemies.length > 5 and enemyInMiddle.pos.x < 35 and @canCast("poison-cloud", enemyInMiddle)
+  @castPoisonCloud enemyInMiddle
   return
 if @canCast("shrink", enemyInMiddle)
   @castShrink enemyInMiddle
